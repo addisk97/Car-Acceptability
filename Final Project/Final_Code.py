@@ -3,6 +3,8 @@
 Created on Sun Dec  1 21:36:56 2019
 
 @author: addis_000
+Addisalem Kebede
+CptS 315 Final Project
 """
 
 #using sklearn
@@ -38,20 +40,15 @@ def digestData():
         
     return data, classes
 
-
 def breakUpData(data, classes, testSize):
     dataForTraining, dataForTesting, classesForTraining, classesForTesting = train_test_split(data,classes, test_size = testSize)
     return dataForTraining, dataForTesting, classesForTraining, classesForTesting
 
-
 def doNaiveBayes(dataForTraining, dataForTesting, classesForTraining):
     cars = GaussianNB()
     cars.fit(dataForTraining,classesForTraining)
-    #score = cars.score(dataForTesting, classesForTesting)
-    #print("The score is: ", score)
     prediction = cars.predict(dataForTesting)
     return prediction
-     
 
 def doPerceptron(dataForTraining, dataForTesting, classesForTraining, iterations, learningRate, v):
     ppn = Perceptron(max_iter = iterations, eta0 = learningRate, verbose = v)
@@ -63,9 +60,6 @@ def determineAccuracy(algorithmName, actualValues, testPredictions, testSize):
     accuracy = metrics.accuracy_score(actualValues, testPredictions)
     print("The accuracy of", algorithmName, "on the test data with test size being", testSize ,"is: ", accuracy)
     return accuracy
-    
-
-
 
 def featureToInteger(features):
     #changing the 1st feature to a number representation
@@ -139,17 +133,6 @@ def classToInteger(class_):
        classNum = 3
     return classNum
 
-
-
-
-
-
-
-
-
-
-
-
 #output
 def outputData(accuracy, testSize, algorithm):
     #Want the different accuracy scores along with the data split used to get them
@@ -161,22 +144,6 @@ def outputData(accuracy, testSize, algorithm):
         with open('accuracy_results_NB.csv', mode = 'a') as results:
             results_writer = csv.writer(results, delimiter=',')
             results_writer.writerow([accuracy, testSize])
-
-
-
-
-def main():
-    with open('accuracy_results_Perceptron.csv', mode = 'w') as results:
-        results_writer = csv.writer(results, delimiter=',')
-        results_writer.writerow(["Accuracy", "TestSize"])
-        
-    with open('accuracy_results_NB.csv', mode = 'w') as results:
-        results_writer = csv.writer(results, delimiter=',')
-        results_writer.writerow(["Accuracy", "TestSize"])
-        
-    getPerceptronAccuracy()
-    getNaiveBayesAccuracy()
-    
 
 #getting the Perceptron accuracy for sample splits of (train-test): 25-75 ,50-50, 75-25, 95-5
 def getPerceptronAccuracy():
@@ -221,8 +188,6 @@ def getPerceptronAccuracy():
         accuracy = determineAccuracy("Perceptron", classesForTesting, testPredictions, .05)    
         outputData(accuracy, .05, "Perceptron")
         count = count + 1
-
-    
     
 #getting the NB accuracy for sample splits of (train-test): 25-75 ,50-50, 75-25, 95-5
 def getNaiveBayesAccuracy():
@@ -267,6 +232,18 @@ def getNaiveBayesAccuracy():
         accuracy = determineAccuracy("Naive Bayes", classesForTesting, testPredictions, .05)
         outputData(accuracy, .05, "Naive Bayes")
         count = count + 1
+
+def main():
+    with open('accuracy_results_Perceptron.csv', mode='w') as results:
+        results_writer = csv.writer(results, delimiter=',')
+        results_writer.writerow(["Accuracy", "TestSize"])
+
+    with open('accuracy_results_NB.csv', mode='w') as results:
+        results_writer = csv.writer(results, delimiter=',')
+        results_writer.writerow(["Accuracy", "TestSize"])
+
+    getPerceptronAccuracy()
+    getNaiveBayesAccuracy()
 
 if __name__ == '__main__':
     main()
